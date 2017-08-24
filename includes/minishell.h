@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 16:13:43 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/06/27 15:54:11 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/08/24 14:54:45 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef	struct	s_venv
 typedef struct 	s_bltin
 {
 	char		name[BLTN_NAME_LENGTH];
-	int			(*f)(char *cmd);
+	int			(*f)(t_cmd *cmd);
 }				t_bltin;
 typedef struct	s_cmd
 {

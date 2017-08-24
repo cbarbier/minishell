@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/06/27 19:16:04 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/08/24 14:48:44 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int			ft_strtab_pop(char **tab, int ipop)
 
 	index = 0;
 	tmp = 0;
+	(void)ipop;
 	while (tab[index])
 	{
 		tmp = tab + index;
@@ -27,6 +28,11 @@ int			ft_strtab_pop(char **tab, int ipop)
 	if (tmp)
 		ft_strdel(tmp);
 	return (1);
+}
+
+void		sig_handler(int sig)
+{
+	ft_printf("signal caught %d\n", sig);
 }
 
 int			main(int argc, char **argv, char **envp)
@@ -66,6 +72,8 @@ int			main(int argc, char **argv, char **envp)
 			break;
 		cmd = ft_strsplit(mns.line, ' ');
 		ip = 0;
+		if (!ft_strcmp(ft_strtrim(mns.line), "exit"))
+			exit(0);
 		while (paths[ip])
 		{
 			tmp = ft_strjoin(paths[ip], "/");
@@ -86,12 +94,14 @@ int			main(int argc, char **argv, char **envp)
 				}
 				else
 				{
-					waitpid(cpid, &status, 0);
+					signal(SIGINT, sig_handler);
+					waitpid(cpid, &status, WUNTRACED);
 					if (!status)
 						ft_printf("child ok\n");
 					else
 						ft_printf("child ko\n");
 				}
+				break;
 			}
 			ip++;
 		}
