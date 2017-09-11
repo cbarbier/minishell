@@ -12,29 +12,28 @@
 
 #include "minishell.h"
 
+int			ft_strtab_pop(char **tab, int ipop)
+{
+	int		index;
+	char	**tmp;
+
+	index = 0;
+	tmp = 0;
+	(void)ipop;
+	while (tab[index])
+	{
+		tmp = tab + index;
+		index++;
+	}
+	if (tmp)
+		ft_strdel(tmp);
+	return (1);
+}
+
 void		sig_handler(int sig)
 {
 	(void)sig;
 	//ft_printf("signal caught %d\n", sig);
-}
-
-int			main(int argc, char **argv, char **envp)
-{
-	t_mns		mns;
-	int		run;
-
-	init_mns(&mns, envp);
-	run = 1;
-	signal(SIGINT, sig_handler);
-	while (run)
-	{
-		ft_printf("{blu}$>{no}");
-		if ((ret = get_next_line(0, &(mns.line))) <= 0)
-			break;
-		compute_cmd(&mns, &run);
-		ft_strdel(&(mns.line));
-	}
-	return (0);
 }
 
 int			main(int argc, char **argv, char **envp)
@@ -48,9 +47,27 @@ int			main(int argc, char **argv, char **envp)
 	int			ip;
 	int 		status;
 	int			cpid;
+	char		**envcpy;
 
+	(void)argv;
+	(void)argc;
+	envcpy = 0;
+	ft_bzero(&mns, sizeof(t_mns));
+	while (*envp)
+	{
+		ft_printf("%s\n", *envp);
+		if (!ft_strncmp("PATH", *envp, 4))
+		{
+			paths = ft_strsplit((*envp) + 5, ':');
+//			ft_putstrtab(paths);
+		}
+		envcpy = ft_str_to_tab(envcpy, *envp);
+		envp++;
+	}
+	buf = getcwd(0, 0);
+	ft_printf("cur path: %s\n", buf);
 	signal(SIGINT, sig_handler);
-	while (42)
+	while (1)
 	{
 		ft_printf("{blu}$>{no}");
 		if ((ret = get_next_line(0, &(mns.line))) <= 0)

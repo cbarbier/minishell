@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   ft_lstany.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/12 12:31:51 by cbarbier          #+#    #+#             */
-/*   Updated: 2016/07/12 14:18:23 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/07 18:21:52 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(t_list *elem))
+int			ft_lstany(t_list *lst, int (*f)(t_list *e, void *d), void *data)
 {
+	int		count;
+
+	count = 0;
 	while (lst)
 	{
-		f(lst);
+		if (f(lst, data))
+			count++;
 		lst = lst->next;
 	}
+	return (count);
 }

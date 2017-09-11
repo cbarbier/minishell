@@ -12,7 +12,9 @@
 
 #include "minishell.h"
 
-int		f_cd(t_cmd *cmd)
+int		f_cd(t_mns *mns, t_cmd *cmd)
 {
+	(void)mns;
+	(void)cmd;
 	return (0);
 }

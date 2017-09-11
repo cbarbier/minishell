@@ -19,10 +19,13 @@ static int		is_spaces(char c)
 	return (0);
 }
 
-static int		to_cmd_lists(t_mns *mns, char **tab)
+static int		to_cmd_list(t_mns *mns, char **arg_tab)
 {
-	t_cmd	cmd;	
-
+	t_list		*elm;
+	t_cmd		cmd;
+	char		**tab;
+	
+	tab  = arg_tab;
 	while (*tab)
 	{
 		cmd.args = ft_strsplitif(*tab, is_spaces);
@@ -32,16 +35,28 @@ static int		to_cmd_lists(t_mns *mns, char **tab)
 		ft_lstpushback(&mns->cmds, elm);
 		tab++;
 	}
-	ft_strtabdel(&tab);
+	ft_strtabdel(&arg_tab);
 	return (1);
+}
+
+static int		put_cmd(t_list *e, void *d)
+{
+	t_cmd	*cmd;
+
+	(void)d;
+	cmd = (t_cmd*)e->content;
+	ft_printf("->path : %s", cmd->path);
+	ft_putstrtab(cmd->args);
+	return (0);
 }
 
 int			compute_cmd(t_mns *mns, int *run)
 {
 	char	**tab;
 
-	tab = ft_strplit(mns->line, ';');
-	to_cmds_list(mns, tab);
-	
+	(void)run;
+	tab = ft_strsplit(mns->line, ';');
+	to_cmd_list(mns, tab);
+	ft_lstany(mns->cmds, put_cmd, 0);
 	return (0);
 }

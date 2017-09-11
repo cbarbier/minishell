@@ -15,12 +15,21 @@ LIB				= libft/libft.a
 CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror
 HDR				= includes/minishell.h
-SRCS			= srcs/main.c 
+SRCS			= srcs/main.c \
+				srcs/init_mns.c \
+				srcs/compute_cmd.c \
+				srcs/line_reader.c \
+				srcs/builtins/f_cd.c \
+				srcs/builtins/f_echo.c \
+				srcs/builtins/f_env.c \
+				srcs/builtins/f_exit.c \
+				srcs/builtins/f_setenv.c \
+				srcs/builtins/f_unsetenv.c
 OBJS			= $(SRCS:.c=.o)
 
 all: $(NAME)
 
-%.o:%.c
+%.o:%.c $(HDR)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I includes
 
 $(NAME): $(LIB) $(OBJS) $(HDR)

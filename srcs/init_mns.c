@@ -26,17 +26,17 @@ static int	init_env(t_mns *mns, char **envp)
 
 static void	init_builtins(t_mns *mns)
 {
-	ft_strcpy(&(mns->bltins[0].name), "cd");
+	ft_strcpy(mns->bltins[0].name, "cd");
 	mns->bltins[0].f = f_cd;
-	ft_strcpy(&(mns->bltins[1].name), "pwd");
-	mns->bltins[1].f = f_pwd;
-	ft_strcpy(&(mns->bltins[2].name), "echo");
+	ft_strcpy(mns->bltins[1].name, "env");
+	mns->bltins[1].f = f_env;
+	ft_strcpy(mns->bltins[2].name, "echo");
 	mns->bltins[2].f = f_echo;
-	ft_strcpy(&(mns->bltins[3].name), "setenv");
+	ft_strcpy(mns->bltins[3].name, "setenv");
 	mns->bltins[3].f = f_setenv;
-	ft_strcpy(&(mns->bltins[4].name), "unsetenv");
+	ft_strcpy(mns->bltins[4].name, "unsetenv");
 	mns->bltins[4].f = f_unsetenv;
-	ft_strcpy(&(mns->bltins[5].name), "exit");
+	ft_strcpy(mns->bltins[5].name, "exit");
 	mns->bltins[5].f = f_exit;
 }
 

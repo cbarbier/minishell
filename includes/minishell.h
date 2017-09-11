@@ -26,10 +26,11 @@ typedef struct	s_cmd
 	char		*path;
 	char		**args;
 }				t_cmd;
+typedef struct	s_mns		t_mns;
 typedef struct 	s_bltin
 {
 	char		name[BLTN_NAME_LENGTH];
-	int			(*f)(t_cmd *cmd);
+	int			(*f)(t_mns *mns, t_cmd *cmd);
 }				t_bltin;
 typedef struct	s_mns
 {
@@ -41,4 +42,15 @@ typedef struct	s_mns
 	char		*line;
 	t_list		*cmds;
 }				t_mns;
+int			init_mns(t_mns *mns, char **env);
+int			compute_cmd(t_mns *mns, int *run);
+char			**line_reader(const int fd);
+
+
+int			f_cd(t_mns *mns, t_cmd *cmd);
+int			f_echo(t_mns *mns, t_cmd *cmd);
+int			f_exit(t_mns *mns, t_cmd *cmd);
+int			f_env(t_mns *mns, t_cmd *cmd);
+int			f_setenv(t_mns *mns, t_cmd *cmd);
+int			f_unsetenv(t_mns *mns, t_cmd *cmd);
 #endif
