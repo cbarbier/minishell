@@ -21,20 +21,22 @@ typedef	struct	s_venv
 	char		*name;
 	char		*value;
 }				t_venv;
+typedef struct	s_cmd
+{
+	char		*path;
+	char		**args;
+}				t_cmd;
 typedef struct 	s_bltin
 {
 	char		name[BLTN_NAME_LENGTH];
 	int			(*f)(t_cmd *cmd);
 }				t_bltin;
-typedef struct	s_cmd
-{
-	char		*name;
-	char		*args;
-}				t_cmd;
 typedef struct	s_mns
 {
 	char		*prompt;
 	t_venv		*env;
+	char		**envcpy;
+	char		**paths;
 	t_bltin		bltins[NB_BLTNS];
 	char		*line;
 	t_list		*cmds;
