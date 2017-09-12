@@ -17,6 +17,42 @@ void		sig_handler(int sig)
 	(void)sig;
 }
 
+char		*get_val(char **tab, const char *key)
+{
+	int		i;
+	int		n;
+
+	n = ft_strlen(key);
+	while (*tab)
+	{
+		if (!ft_strncmp(*tab, key, n) && (*tab)[n] == '=')
+			return ((*tab) + n + 1);
+		tab++;
+		i++;
+	}
+	return (0);
+}
+
+int		set_val(char **tab, const char *key, char *val)
+{
+	int		n;
+	char		*line;
+
+	n = ft_strlen(key);
+	while (*tab)
+	{
+		if (!ft_strncmp(*tab, key, n) && (*tab)[n] == '=')
+		{
+			ft_strdel(tab);
+			line = ft_strjoin(key, "=");
+			*tab = ft_strjoinfree(line, val); 
+			return (1);
+		}
+		tab++;
+	}
+	return (0);
+}
+
 static int	mns_core(t_mns *mns)
 {
 	char	***cmds;

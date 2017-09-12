@@ -16,5 +16,6 @@ int		f_cd(t_mns *mns, char **cmd)
 {
 	(void)mns;
 	(void)cmd;
+	
 	return (0);
 }
