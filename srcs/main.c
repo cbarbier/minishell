@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/08/24 14:48:44 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/12 22:12:58 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,92 +15,41 @@
 void		sig_handler(int sig)
 {
 	(void)sig;
-	//ft_printf("signal caught %d\n", sig);
+}
+
+static int	mns_core(t_mns *mns)
+{
+	char	***cmds;
+	int		i;
+
+	i = 0;
+	while (mns->run)
+	{
+		if (!(mns->cmds = (char***)ft_memalloc(2 * sizeof(char**))))
+			return (0);
+		mns->tcmds = mns->cmds;
+		ft_printf("{blu}$mnshll>{no}");
+		line_reader(mns, 0);
+		cmds = mns->cmds;
+		while (*cmds)
+		{
+			if (!treat_cmd(mns, cmds++))
+				ft_fprintf(2, "%s", mns->err);
+			ft_strdel(&mns->err);
+		}
+		free_mns_cmds(mns);
+	}
+	return (1);
 }
 
 int			main(int argc, char **argv, char **envp)
 {
 	t_mns		mns;
-	int		run;
-	int		ret;
 
 	(void)argv;
 	(void)argc;
-	init_mns(&mns, envp);
-	run = 1;
-	while (run)
-	{
-		ft_printf("test  $>");
-		ft_putstrtab(line_reader(0));
-	}
 	signal(SIGINT, sig_handler);
-	while (run)
-	{
-		ft_printf("{blu}$>{no}");
-		if ((ret = get_next_line(0, &(mns.line))) <= 0)
-			break;
-		if (!ft_strcmp(mns.line, "exit"))
-			exit(0);
-		compute_cmd(&mns, &run);
-		ft_strdel(&(mns.line));
-	}
+	init_mns(&mns, envp);
+	mns_core(&mns);
 	return (0);
 }
-/*
-int			main(int argc, char **argv, char **envp)
-{
-	t_mns		mns;
-	int			ret;
-	char		*buf;
-	char		**paths;
-	char		**cmd;
-	char		*tmp;
-	int			ip;
-	int 		status;
-	int			cpid;
-
-	signal(SIGINT, sig_handler);
-	while (42)
-	{
-		ft_printf("{blu}$>{no}");
-		if ((ret = get_next_line(0, &(mns.line))) <= 0)
-			break;
-		cmd = ft_strsplit(mns.line, ' ');
-		ip = 0;
-		if (!ft_strcmp(ft_strtrim(mns.line), "exit"))
-			exit(0);
-		while (paths[ip])
-		{
-			tmp = ft_strjoin(paths[ip], "/");
-			tmp = ft_strjoin(tmp, cmd[0]);
-			//ft_printf("tmp = %s\n", tmp);
-			if (!access(tmp, X_OK))
-			{
-				if ((cpid = fork()) < 0)
-				{
-					ft_printf("fork error");
-					exit(1);
-				}
-				else if (cpid == 0)
-				{
-				//	ft_putstrtab(envcpy);
-					execve(tmp, cmd, envcpy);
-					exit(0);
-				}
-				else
-				{
-					signal(SIGINT, sig_handler);
-					waitpid(cpid, &status, 0);
-					if (!status)
-						ft_printf("child ok\n");
-					else
-						ft_printf("child ko\n");
-				}
-				break;
-			}
-			ip++;
-		}
-	}
-	ft_printf("last ret = %d\n", ret);
-	return (0);
-}*/

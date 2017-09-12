@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/08/24 14:48:44 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/12 22:13:10 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	init_env(t_mns *mns, char **envp)
 	{
 		if (!ft_strncmp("PATH", *envp, 4))
 			mns->paths = ft_strsplit((*envp) + 5, ':');
-		mns->envcpy = ft_str_to_tab(mns->envcpy, *envp);
+		mns->envcpy = ft_str_to_tab(mns->envcpy, ft_strdup(*envp));
 		envp++;
 	}
 	return (0);
@@ -40,10 +40,11 @@ static void	init_builtins(t_mns *mns)
 	mns->bltins[5].f = f_exit;
 }
 
-int		init_mns(t_mns *mns, char **envp)
+int			init_mns(t_mns *mns, char **envp)
 {
 	ft_bzero(mns, sizeof(t_mns));
 	init_builtins(mns);
 	init_env(mns, envp);
-	return (0);
+	mns->run = 1;
+	return (1);
 }

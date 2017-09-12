@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f_env.c                                            :+:      :+:    :+:   */
+/*   fr33.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/12 18:45:07 by cbarbier         ###   ########.fr       */
+/*   Created: 2017/09/12 15:03:55 by cbarbier          #+#    #+#             */
+/*   Updated: 2017/09/12 16:36:44 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		f_env(t_mns *mns, char **cmd)
+void		free_mns_cmds(t_mns *mns)
 {
-	if (ft_strtablen(cmd) > 1)
+	char	***start;
+	char	***tmp;
+
+	start = mns->cmds;
+	while (*start)
 	{
-		ft_fprintf(2, "mnsh: no arguments needed");
-		return (0);
+		tmp = start;
+		start++;
+		ft_strtabdel(tmp);
 	}
-	ft_putstrtab(mns->envcpy);
-	return (1);
+	free(mns->cmds);
+	mns->cmds = 0;
+	mns->tcmds = 0;
+}
+
+void		free_mns(t_mns *mns)
+{
+	ft_strtabdel(&mns->envcpy);
+	ft_strtabdel(&mns->paths);
+	free_mns_cmds(mns);
+	ft_strdel(&mns->err);
 }

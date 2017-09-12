@@ -104,6 +104,7 @@ SRC  = ft_memset.c \
 	   ft_printf_src/ft_printf.c \
 	   ft_printf_src/ft_fprintf.c \
 	   ft_printf_src/ft_sprintf.c \
+	   ft_printf_src/ft_asprintf.c \
 	   ft_printf_src/split_args.c \
 	   ft_printf_src/init_pf.c \
 	   ft_printf_src/arg_to_buffer.c \

@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 11:27:08 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/03/08 10:30:18 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/12 16:10:27 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct				s_pf
 
 int							ft_printf(const char *format, ...);
 int							ft_sprintf(char *str, const char *format, ...);
+int							ft_asprintf(char **astr, const char *format, ...);
 int							ft_fprintf(int fd, const char *format, ...);
 void						init_pf(t_pf *pf);
 void						split_args(t_pf *pf, const char *format);
