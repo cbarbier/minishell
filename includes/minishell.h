@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 22:26:25 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/12 22:34:41 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/13 16:54:53 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # define NB_BLTNS			6
 # define BLTN_NAME_LENGTH	15
 # include "../libft/includes/libft.h"
+# include <dirent.h>
+# include <sys/stat.h>
 
 typedef	struct s_mns		t_mns;
 typedef	struct				s_bltin
@@ -36,6 +38,9 @@ typedef struct				s_mns
 int							init_mns(t_mns *mns, char **env);
 void						line_reader(t_mns *mns, const int fd);
 int							treat_cmd(t_mns *mns, char ***a_cmd);
+int							parse_token(t_mns *mns, char ***cmds);
+char						*get_val(char **tab, const char *key);
+int							set_val(char **tab, const char *key, char *val);
 void						sig_handler(int s);
 void						free_mns(t_mns *mns);
 void						free_mns_cmds(t_mns *mns);

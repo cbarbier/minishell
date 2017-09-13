@@ -6,7 +6,7 @@
 #    By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/04 14:32:18 by cbarbier          #+#    #+#              #
-#    Updated: 2017/09/12 15:12:07 by cbarbier         ###   ########.fr        #
+#    Updated: 2017/09/13 16:57:55 by cbarbier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ SRCS			= srcs/main.c \
 				srcs/init_mns.c \
 				srcs/line_reader.c \
 				srcs/treat_cmd.c \
+				srcs/parse_token.c \
+				srcs/tools.c \
 				srcs/fr33.c \
 				srcs/builtins/f_cd.c \
 				srcs/builtins/f_echo.c \

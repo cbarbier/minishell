@@ -6,11 +6,25 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/12 22:13:10 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/13 11:31:54 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	up_sh_lvl(char **envcpy)
+{
+	char	*val;
+	int		lvl;
+
+	if (!(val = get_val(envcpy, "SHLVL")))
+		return (0);
+	ft_printf("val %s\n", val);
+	if (!ft_myatoi(val, &lvl))
+		return (0);
+	set_val(envcpy, "SHLVL", ft_itoa(lvl + 1));
+	return (1);
+}
 
 static int	init_env(t_mns *mns, char **envp)
 {
@@ -45,6 +59,7 @@ int			init_mns(t_mns *mns, char **envp)
 	ft_bzero(mns, sizeof(t_mns));
 	init_builtins(mns);
 	init_env(mns, envp);
+	up_sh_lvl(mns->envcpy);
 	mns->run = 1;
 	return (1);
 }

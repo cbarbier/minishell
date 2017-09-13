@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/12 12:31:51 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/12 11:45:22 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/13 15:13:13 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ char	*ft_strnjoinzfree(char const *s1, char const *s2, int n, int z)
 	if (!s2)
 		return ((char *)s1);
 	len = s1 ? ft_strlen(s1) : 0;
-	if (!(res = ft_strnew(len + ft_strlen(s2))))
-		return (NULL);
+	if (!(res = ft_strnew(len + n)))
+		return (0);
 	if (s1)
 		ft_strcpy(res, s1);
 	ft_strncat(res, s2, n);
