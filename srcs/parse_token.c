@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 16:18:00 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/13 17:26:33 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/13 19:09:59 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ static int	replace_home(t_mns *mns, char **tok, char *tild)
 	return (1);
 }
 
+static int	set_status(t_mns *mns, char **cmd)
+{
+	char		*new;
+
+	if (!(new = ft_itoa(mns->status)))
+		return (0);
+	ft_strdel(cmd);
+	*cmd = new;
+	return (1);
+}
+
 static int	parse_cmd(t_mns *mns, char **cmd)
 {
 	char		*val;
@@ -38,7 +49,9 @@ static int	parse_cmd(t_mns *mns, char **cmd)
 			ft_printf(" tilde %s\n", *cmd);
 			replace_home(mns, cmd, val);
 		}
-		if (**cmd == '$' && (val = get_val(mns->envcpy, (*cmd) + 1)))
+		if (!ft_strcmp("$?", *cmd))
+			set_status(mns, cmd);
+		else if (**cmd == '$' && (val = get_val(mns->envcpy, (*cmd) + 1)))
 		{
 			ft_printf(" dollar %s\n", *cmd);
 			ft_strdel(cmd);

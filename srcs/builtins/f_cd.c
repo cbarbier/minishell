@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/13 17:24:58 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/13 19:03:08 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,24 @@ static int	f_cd_helper(t_mns *mns, char **cmd, char *pa)
 	return (1);
 }
 
+static char	**null_arg(t_mns *mns, char **cmd)
+{
+	char			***cmds;
+	char			*hm;
+
+	if (!(hm = get_val(mns->envcpy, "HOME")))
+		return (0);
+	cmds = mns->cmds;
+	while (*cmds)
+	{
+		if (*cmds == cmd)
+			break ;
+		cmds++;
+	}
+	*cmds = ft_str_to_tab(cmd, ft_strdup(hm));
+	return (*cmds);
+}
+
 int			f_cd(t_mns *mns, char **cmd)
 {
 	char		*pa;
@@ -80,9 +98,9 @@ int			f_cd(t_mns *mns, char **cmd)
 		ft_fprintf(2, "cd: Usage cd [DIR_PATH]\n");
 		return (0);
 	}
-	pa = cmd[1];
-	if (!pa && !(pa = get_val(mns->envcpy, "HOME")))
+	if (!cmd[1] && !(cmd = null_arg(mns, cmd)))
 		return (0);
+	pa = cmd[1];
 	if (!ft_strcmp(pa, "-"))
 		if (!(pa = get_val(mns->envcpy, "OLDPWD")))
 			return (0);

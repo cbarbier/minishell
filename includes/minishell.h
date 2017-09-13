@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 22:26:25 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/13 16:54:53 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/13 18:28:29 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct				s_mns
 int							init_mns(t_mns *mns, char **env);
 void						line_reader(t_mns *mns, const int fd);
 int							treat_cmd(t_mns *mns, char ***a_cmd);
+int							found_cmd(char *path, char *cmd);
 int							parse_token(t_mns *mns, char ***cmds);
 char						*get_val(char **tab, const char *key);
 int							set_val(char **tab, const char *key, char *val);

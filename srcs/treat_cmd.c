@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/12 22:15:04 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/13 19:19:57 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,15 @@ static char	*try_path(t_mns *mns, char **cmd)
 	path = mns->paths;
 	while (*path)
 	{
-		if ((*path)[ft_strlen(*path) - 1] != '/')
+		if (found_cmd(*path, cmd[0]))
+		{
 			p = ft_strjoin(*path, "/");
-		else
-			p = ft_strdup(*path);
-		p = ft_strnjoinzfree(p, cmd[0], ft_strlen(cmd[0]), 1);
-		if (try_cmd(mns, p, cmd))
-			return (p);
-		ft_printf("p = %s\n", p);
-		ft_strdel(&p);
+			p = ft_strnjoinzfree(p, cmd[0], ft_strlen(cmd[0]), 1);
+			if (try_cmd(mns, p, cmd))
+				return (p);
+			ft_strdel(&p);
+			break ;
+		}
 		path++;
 	}
 	return (0);
@@ -75,6 +75,7 @@ static char	*try_path(t_mns *mns, char **cmd)
 static int	exec_cmd(t_mns *mns, char *path, char **cmd)
 {
 	int		cpid;
+	int		status;
 
 	if ((cpid = fork()) < 0)
 	{
@@ -89,7 +90,9 @@ static int	exec_cmd(t_mns *mns, char *path, char **cmd)
 	else
 	{
 		signal(SIGINT, sig_handler);
-		waitpid(cpid, &mns->status, 0);
+		waitpid(cpid, &status, 0);
+		if (WIFEXITED(status))
+			mns->status = WEXITSTATUS(status);
 	}
 	return (1);
 }
