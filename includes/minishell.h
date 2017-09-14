@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 22:26:25 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/13 18:28:29 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/14 10:08:28 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 # include <dirent.h>
 # include <sys/stat.h>
 
-typedef	struct s_mns		t_mns;
-typedef	struct				s_bltin
+struct s_mns;
+typedef struct				s_bltin
 {
 	char			name[BLTN_NAME_LENGTH];
-	int				(*f)(t_mns *, char **);
+	int				(*f)(struct s_mns *, char **);
 }							t_bltin;
 typedef struct				s_mns
 {
