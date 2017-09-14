@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/14 11:23:25 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/14 11:47:56 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	its_the_end(char *c, int *quote, int *dquote)
 static int	tokenize(t_mns *mns, char *line, int *qs, char **a_token)
 {
 	char		*token;
-	char		ret;
+	int			ret;
 
 	token = *a_token;
 	while (*line)
@@ -73,7 +73,7 @@ static int	tokenize(t_mns *mns, char *line, int *qs, char **a_token)
 			*mns->tcmds = ft_str_to_tab(*mns->tcmds, token);
 			token = 0;
 		}
-		else if (!ft_strchr("'\"", *line))
+		else if (!ft_strchr("\"'", *line))
 			token = ft_strnjoinzfree(token, line, 1, 1);
 		if (ret == 2)
 			add_new_cmd(mns);

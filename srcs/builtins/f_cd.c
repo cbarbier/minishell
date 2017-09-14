@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/13 19:03:08 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/14 11:47:17 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static int	is_valid_dir(t_mns *mns, char *pa)
 	else
 		fp = ft_strdup(pa);
 	if ((stat(pa, &st) == -1) && !(ret = 0))
-		ft_fprintf(2, "cd: Cannot get stats: %s\n", pa);
-	if (!(S_ISDIR(st.st_mode)) && !(ret = 0))
-		ft_fprintf(2, "cd: It is not a directory: %s\n", pa);
-	if (!(st.st_mode & S_IXUSR) && !(ret = 0))
+		ft_fprintf(2, "cd: no such file or directory: %s\n", pa);
+	else if (!(S_ISDIR(st.st_mode)) && !(ret = 0))
+		ft_fprintf(2, "cd: not a directory: %s\n", pa);
+	else if (!(st.st_mode & S_IXUSR) && !(ret = 0))
 		ft_fprintf(2, "cd: Permissions denied: %s\n", pa);
 	ft_strdel(&fp);
 	return (ret);
