@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/12 22:01:22 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/14 16:49:12 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int				f_setenv(t_mns *mns, char **cmd)
 	if (ft_strtablen(cmd) != 3
 	|| !is_valid_name(cmd[1]))
 	{
-		ft_fprintf(2, "mnsh: wrong format\n");
+		ft_fprintf(2, "mnsh: Usage: setenv [VAR_NAME] [value] (A-Za-z_)\n");
 		return (0);
 	}
 	line = ft_strjoin(cmd[1], "=");

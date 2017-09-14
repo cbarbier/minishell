@@ -6,18 +6,26 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 22:26:25 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/14 10:08:28 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/14 16:52:15 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define DEBUG				0
 # define NB_BLTNS			6
 # define BLTN_NAME_LENGTH	15
 # include "../libft/includes/libft.h"
 # include <dirent.h>
 # include <sys/stat.h>
 
+typedef struct				s_parser
+{
+	int			dq;
+	int			q;
+	int			ret;
+	int			sv;
+}							t_parser;
 struct s_mns;
 typedef struct				s_bltin
 {
