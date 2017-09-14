@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/14 11:47:56 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/14 12:56:24 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static int	tokenize(t_mns *mns, char *line, int *qs, char **a_token)
 	int			ret;
 
 	token = *a_token;
+	ret = 1;
 	while (*line)
 	{
 		if ((ret = its_the_end(line, qs, qs + 1)) && token)

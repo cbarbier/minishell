@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/14 11:50:25 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/14 12:46:44 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char		**ft_strtabpop(char **tab, int ipop)
 	{
 		if (inew != ipop)
 			new[inew++] = *tab++;
-		else
+		else if ((ipop = -1))
 			ft_strdel(tab++);
 	}
 	free(tmp);
