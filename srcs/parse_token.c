@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 16:18:00 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/13 19:09:59 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/14 11:51:33 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,14 @@ static int	parse_cmd(t_mns *mns, char **cmd)
 
 	while (*cmd)
 	{
-		ft_printf(" parsin %s\n", *cmd);
 		if ((val = ft_strchr(*cmd, '~')))
 		{
-			ft_printf(" tilde %s\n", *cmd);
 			replace_home(mns, cmd, val);
 		}
 		if (!ft_strcmp("$?", *cmd))
 			set_status(mns, cmd);
 		else if (**cmd == '$' && (val = get_val(mns->envcpy, (*cmd) + 1)))
 		{
-			ft_printf(" dollar %s\n", *cmd);
 			ft_strdel(cmd);
 			*cmd = ft_strdup(val);
 		}

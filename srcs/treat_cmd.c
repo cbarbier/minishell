@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/13 19:19:57 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/14 11:52:47 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	try_cmd(t_mns *mns, char *fp, char **cmd)
 {
-	ft_printf("try_cmd\n");
 	if (access(fp, F_OK) == -1)
 	{
 		ft_strdel(&mns->err);
@@ -35,7 +34,6 @@ static int	try_bltins(t_mns *mns, char **cmd)
 {
 	int		i;
 
-	ft_printf("try_builtins\n");
 	i = 0;
 	while (i < NB_BLTNS)
 	{
@@ -54,7 +52,6 @@ static char	*try_path(t_mns *mns, char **cmd)
 	char		**path;
 	char		*p;
 
-	ft_printf("try_path\n");
 	path = mns->paths;
 	while (*path)
 	{
@@ -106,21 +103,14 @@ int			treat_cmd(t_mns *mns, char ***a_cmd)
 	mns->err = 0;
 	cmd = *a_cmd;
 	if (try_bltins(mns, cmd) >= 0)
-	{
-		ft_printf("trying bltins\n");
 		return (1);
-	}
 	if ((p = try_path(mns, cmd)))
 	{
-		ft_printf("trying path\n");
 		ret = exec_cmd(mns, p, cmd);
 		ft_strdel(&p);
 		return (ret);
 	}
 	if (try_cmd(mns, cmd[0], cmd))
-	{
-		ft_printf("trying direct cmd\n");
 		return (exec_cmd(mns, cmd[0], cmd));
-	}
 	return (0);
 }

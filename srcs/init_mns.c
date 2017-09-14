@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/13 11:31:54 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/14 11:50:49 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	up_sh_lvl(char **envcpy)
 
 	if (!(val = get_val(envcpy, "SHLVL")))
 		return (0);
-	ft_printf("val %s\n", val);
 	if (!ft_myatoi(val, &lvl))
 		return (0);
 	set_val(envcpy, "SHLVL", ft_itoa(lvl + 1));
