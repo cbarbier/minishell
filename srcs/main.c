@@ -6,16 +6,11 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/14 16:50:44 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:56:42 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void		sig_handler(int sig)
-{
-	(void)sig;
-}
 
 static void	put_prompt(t_mns *mns)
 {
@@ -59,7 +54,7 @@ int			main(int argc, char **argv, char **envp)
 
 	(void)argv;
 	(void)argc;
-	signal(SIGINT, sig_handler);
+	signal(SIGINT, SIG_IGN);
 	init_mns(&mns, envp);
 	mns_core(&mns);
 	return (0);

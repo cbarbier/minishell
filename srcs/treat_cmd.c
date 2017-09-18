@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/14 11:52:47 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:55:56 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ static int	exec_cmd(t_mns *mns, char *path, char **cmd)
 	}
 	if (!cpid)
 	{
+		signal(SIGINT, SIG_DFL);
 		execve(path, cmd, mns->envcpy);
 		exit(0);
 	}
 	else
 	{
-		signal(SIGINT, sig_handler);
 		waitpid(cpid, &status, 0);
 		if (WIFEXITED(status))
 			mns->status = WEXITSTATUS(status);

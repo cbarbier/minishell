@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:18:56 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/13 18:34:09 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:57:00 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int			set_val(char **tab, const char *key, char *val)
 		}
 		tab++;
 	}
+	ft_strdel(&val);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/14 16:53:16 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/18 13:45:25 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ void		line_reader(t_mns *mns, const int fd)
 		ft_strdel(&line);
 		if (ret)
 			break ;
-		ft_printf((parser.dq ? "$dq>" : "$q>"));
+		ft_printf((parser.dq ? "$dquote>" : "$quote>"));
 	}
 }

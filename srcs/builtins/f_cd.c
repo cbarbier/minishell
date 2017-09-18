@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/14 11:47:17 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/09/18 10:19:15 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,16 @@ static int	f_cd_helper(t_mns *mns, char **cmd, char *pa)
 
 	if (chdir(pa) == -1)
 	{
-		ft_fprintf(2, "cd: : error on chdir functionr\n", pa);
+		ft_fprintf(2, "cd: error on chdir function\n", pa);
 		ft_strdel(&pa);
 		return (0);
 	}
-	old = get_val(mns->envcpy, "PWD");
+	if (!(old = get_val(mns->envcpy, "PWD")))
+		return (0);
 	set_val(mns->envcpy, "OLDPWD", ft_strdup(old));
 	if (!(pa = getcwd(0, 0)))
 	{
-		ft_fprintf(2, "cd: : error on getcwd function\n", pa);
+		ft_fprintf(2, "cd: error on getcwd function\n", pa);
 		ft_strdel(&pa);
 		return (0);
 	}
