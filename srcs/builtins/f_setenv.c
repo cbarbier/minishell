@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/18 11:03:16 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/03 11:40:59 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@ static int		is_valid_name(char *nm)
 	return (1);
 }
 
+static int		set_path(t_mns *mns, char **cmd)
+{
+	if (ft_strcmp(cmd[1], "PATH"))
+		return (0);
+	ft_strtabdel(&mns->paths);
+	mns->paths = ft_strsplit(cmd[2], ':');
+	return (mns->paths ? 1 : 0);
+}
+
 int				f_setenv(t_mns *mns, char **cmd)
 {
 	int		i;
@@ -59,6 +68,7 @@ int				f_setenv(t_mns *mns, char **cmd)
 		mns->envcpy = ft_str_to_tab(mns->envcpy, line);
 		return (1);
 	}
+	set_path(mns, cmd);
 	ft_strdel(mns->envcpy + i);
 	mns->envcpy[i] = line;
 	return (1);

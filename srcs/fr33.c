@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 15:03:55 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/12 16:36:44 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/03 18:34:08 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		free_mns_cmds(t_mns *mns)
 void		free_mns(t_mns *mns)
 {
 	ft_strtabdel(&mns->envcpy);
+	ft_strtabdel(&mns->keys);
 	ft_strtabdel(&mns->paths);
 	free_mns_cmds(mns);
 	ft_strdel(&mns->err);

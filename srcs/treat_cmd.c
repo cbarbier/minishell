@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/18 13:55:56 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/03 11:42:50 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static char	*try_path(t_mns *mns, char **cmd)
 	char		**path;
 	char		*p;
 
-	path = mns->paths;
+	if (!(path = mns->paths))
+		return (0);
 	while (*path)
 	{
 		if (found_cmd(*path, cmd[0]))

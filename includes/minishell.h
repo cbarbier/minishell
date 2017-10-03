@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 22:26:25 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/18 14:32:21 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/03 16:07:08 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct				s_bltin
 }							t_bltin;
 typedef struct				s_mns
 {
+	char			**keys;
 	char			**envcpy;
 	char			**paths;
 	t_bltin			bltins[NB_BLTNS];
@@ -50,6 +51,7 @@ int							found_cmd(char *path, char *cmd);
 int							parse_token(t_mns *mns, char ***cmds);
 char						*get_val(char **tab, const char *key);
 int							set_val(char **tab, const char *key, char *val);
+int							maj_keys(t_mns *mns);
 void						free_mns(t_mns *mns);
 void						free_mns_cmds(t_mns *mns);
 int							f_cd(t_mns *mns, char **cmd);

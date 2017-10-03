@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/14 11:50:49 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/03 17:47:06 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ static int	up_sh_lvl(char **envcpy)
 	char	*val;
 	int		lvl;
 
-	if (!(val = get_val(envcpy, "SHLVL")))
-		return (0);
+	val = get_val(envcpy, "SHLVL");
 	if (!ft_myatoi(val, &lvl))
 		return (0);
 	set_val(envcpy, "SHLVL", ft_itoa(lvl + 1));
@@ -27,6 +26,10 @@ static int	up_sh_lvl(char **envcpy)
 
 static int	init_env(t_mns *mns, char **envp)
 {
+	char		*pa;
+	char		*pb;
+	char		*h;
+
 	while (*envp)
 	{
 		if (!ft_strncmp("PATH", *envp, 4))
@@ -34,6 +37,23 @@ static int	init_env(t_mns *mns, char **envp)
 		mns->envcpy = ft_str_to_tab(mns->envcpy, ft_strdup(*envp));
 		envp++;
 	}
+	if ((h = get_val(mns->envcpy, "HOME")))
+		chdir(h);
+	pa = getcwd(0, 0);
+	if (!get_val(mns->envcpy, "PWD") && pa)
+		mns->envcpy = ft_str_to_tab(mns->envcpy, ft_strjoin("PWD=", pa));
+	else if (pa)
+		set_val(mns->envcpy, "PWD", ft_strdup(pa));
+	if (!get_val(mns->envcpy, "_") && pa)
+	{
+		ft_printf("pwd %s\n", pa);
+		pb = ft_strnjoinzfree("_=", pa, ft_strlen(pa), 0);
+		pb = ft_strnjoinzfree(pb, "/minishell", 10, 1);
+		mns->envcpy = ft_str_to_tab(mns->envcpy, pb);
+	}
+	if (!get_val(mns->envcpy, "SHLVL") && pa)
+		mns->envcpy = ft_str_to_tab(mns->envcpy, ft_strdup("SHLVL=0"));
+	ft_strdel(&pa);
 	return (0);
 }
 

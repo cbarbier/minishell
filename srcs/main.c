@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/18 13:56:42 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/03 16:41:39 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,21 @@
 static void	put_prompt(t_mns *mns)
 {
 	char	*p;
+	char	*h;
 
-	if (!(p = get_val(mns->envcpy, "PWD")))
-		ft_printf("\e[36;1m mnshll-$>{no}");
-	else
+	if (!(p = get_val(mns->envcpy, "PWD")) && (p = getcwd(0, 0)))
+	{
+		mns->envcpy = ft_str_to_tab(mns->envcpy, ft_strjoin("PWD=", p));
 		ft_printf("[{grn}%s{no}]\e[36;1m mnshll-$>{no}", p);
+		ft_strdel(&p);
+		return ;
+	}
+	else if ((h = get_val(mns->envcpy, "HOME"))
+			&& !ft_strncmp(p, h, ft_strlen(h)))
+		ft_printf("[{grn}~%s{no}]", p + ft_strlen(h));
+	else
+		ft_printf("[{grn}%s{no}]", (p ? p : ""));
+	ft_printf("\e[36;1m mnshll-$>{no}");
 }
 
 static int	mns_core(t_mns *mns)
