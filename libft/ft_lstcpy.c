@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f_env.c                                            :+:      :+:    :+:   */
+/*   ft_lstcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/09 13:19:48 by cbarbier         ###   ########.fr       */
+/*   Created: 2016/07/12 12:31:51 by cbarbier          #+#    #+#             */
+/*   Updated: 2017/09/26 19:40:14 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int		f_env(t_mns *mns, char **cmd)
+t_list		*ft_lstcpy(t_list *lst, size_t content_size)
 {
-	if (ft_strtablen(cmd) > 1)
+	t_list			*new;
+	t_list			*tmp;
+
+	new = 0;
+	while (lst)
 	{
-		ft_fprintf(2, "env: Usage: env [no arguments]\n");
-		return (0);
+		if (!(tmp = ft_lstnew(lst->content, content_size)))
+			return (0);
+		ft_lstpushback(&new, tmp);
+		lst = lst->next;
 	}
-	ft_putstrtab(mns->envcpy);
-	return (1);
+	return (new);
 }

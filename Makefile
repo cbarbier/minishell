@@ -6,7 +6,7 @@
 #    By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/04 14:32:18 by cbarbier          #+#    #+#              #
-#    Updated: 2017/10/03 19:59:53 by cbarbier         ###   ########.fr        #
+#    Updated: 2017/10/09 14:24:25 by cbarbier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,10 @@ $(NAME): $(LIB) $(OBJS) $(HDR)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -Llibft -lft
 	@echo "EXECUTABLE BUILT\t\033[0;32m✓\033[0m"
 
+ifneq ($(shell make -q -C libft;echo $$?), 0)
+.PHONY: $(LIB)
+endif
+
 $(LIB):
 	@make -C libft
 
@@ -55,7 +59,6 @@ clean:
 
 fclean: clean
 	@/bin/rm -rf $(NAME)
-	$(visu)
 	@make -C libft fclean
 
 re: fclean all

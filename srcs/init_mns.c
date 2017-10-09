@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/03 17:47:06 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/09 15:23:44 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,12 @@ static int	up_sh_lvl(char **envcpy)
 	return (1);
 }
 
-static int	init_env(t_mns *mns, char **envp)
+static int	init_env(t_mns *mns)
 {
 	char		*pa;
 	char		*pb;
 	char		*h;
 
-	while (*envp)
-	{
-		if (!ft_strncmp("PATH", *envp, 4))
-			mns->paths = ft_strsplit((*envp) + 5, ':');
-		mns->envcpy = ft_str_to_tab(mns->envcpy, ft_strdup(*envp));
-		envp++;
-	}
 	if ((h = get_val(mns->envcpy, "HOME")))
 		chdir(h);
 	pa = getcwd(0, 0);
@@ -46,7 +39,6 @@ static int	init_env(t_mns *mns, char **envp)
 		set_val(mns->envcpy, "PWD", ft_strdup(pa));
 	if (!get_val(mns->envcpy, "_") && pa)
 	{
-		ft_printf("pwd %s\n", pa);
 		pb = ft_strnjoinzfree("_=", pa, ft_strlen(pa), 0);
 		pb = ft_strnjoinzfree(pb, "/minishell", 10, 1);
 		mns->envcpy = ft_str_to_tab(mns->envcpy, pb);
@@ -77,7 +69,14 @@ int			init_mns(t_mns *mns, char **envp)
 {
 	ft_bzero(mns, sizeof(t_mns));
 	init_builtins(mns);
-	init_env(mns, envp);
+	while (*envp)
+	{
+		if (!ft_strncmp("PATH", *envp, 4))
+			mns->paths = ft_strsplit((*envp) + 5, ':');
+		mns->envcpy = ft_str_to_tab(mns->envcpy, ft_strdup(*envp));
+		envp++;
+	}
+	init_env(mns);
 	up_sh_lvl(mns->envcpy);
 	mns->run = 1;
 	return (1);

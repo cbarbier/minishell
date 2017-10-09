@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 16:18:00 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/03 18:01:40 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/09 16:12:56 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,24 @@ static char		*replace_var(t_mns *mns, char **tok, char *dol)
 	return (dol + 1);
 }
 
-static int	replace_home(t_mns *mns, char **tok, char *tild)
+static char		*replace_home(t_mns *mns, char **tok, char *tild)
 {
 	char	*hom;
 	char	*res;
+	int		len;
 
 	if (!(hom = get_val(mns->envcpy, "HOME")))
-		return (0);
+		return (tild + 1);
+	len = ft_strlen(hom);
 	res = ft_strjoin(hom, tild + 1);
+	len += tild - *tok;
 	res = ft_strjoinfree(ft_strsub(*tok, 0, tild - *tok), res);
 	ft_strdel(tok);
 	*tok = res;
-	return (1);
+	return (*tok + len);
 }
 
-static int	set_status(t_mns *mns, char **cmd)
+static int		set_status(t_mns *mns, char **cmd)
 {
 	char		*new;
 
@@ -64,9 +67,8 @@ static int	set_status(t_mns *mns, char **cmd)
 	return (1);
 }
 
-static int	parse_cmd(t_mns *mns, char **cmd)
+static int		parse_cmd(t_mns *mns, char **cmd)
 {
-	char		*val;
 	char		*tmp;
 
 	while (*cmd)
@@ -74,8 +76,9 @@ static int	parse_cmd(t_mns *mns, char **cmd)
 		tmp = *cmd;
 		while ((tmp = ft_strchr(tmp, '$')))
 			tmp = replace_var(mns, cmd, tmp);
-		if ((val = ft_strchr(*cmd, '~')))
-			replace_home(mns, cmd, val);
+		tmp = *cmd;
+		while ((tmp = ft_strchr(tmp, '~')))
+			tmp = replace_home(mns, cmd, tmp);
 		if (!ft_strcmp("$?", *cmd))
 			set_status(mns, cmd);
 		cmd++;
@@ -83,7 +86,7 @@ static int	parse_cmd(t_mns *mns, char **cmd)
 	return (1);
 }
 
-int			parse_token(t_mns *mns, char ***cmds)
+int				parse_token(t_mns *mns, char ***cmds)
 {
 	maj_keys(mns);
 	while (*cmds)

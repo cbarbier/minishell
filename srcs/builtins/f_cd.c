@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/09/18 10:19:15 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/09 16:06:55 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	f_cd_helper(t_mns *mns, char **cmd, char *pa)
 	return (1);
 }
 
-static char	**null_arg(t_mns *mns, char **cmd)
+static int	null_arg(t_mns *mns, char ***cmd)
 {
 	char			***cmds;
 	char			*hm;
@@ -82,12 +82,12 @@ static char	**null_arg(t_mns *mns, char **cmd)
 	cmds = mns->cmds;
 	while (*cmds)
 	{
-		if (*cmds == cmd)
+		if (*cmds == *cmd)
 			break ;
 		cmds++;
 	}
-	*cmds = ft_str_to_tab(cmd, ft_strdup(hm));
-	return (*cmds);
+	*cmds = ft_str_to_tab(*cmd, ft_strdup(hm));
+	return (1);
 }
 
 int			f_cd(t_mns *mns, char **cmd)
@@ -99,7 +99,7 @@ int			f_cd(t_mns *mns, char **cmd)
 		ft_fprintf(2, "cd: Usage cd [DIR_PATH]\n");
 		return (0);
 	}
-	if (!cmd[1] && !(cmd = null_arg(mns, cmd)))
+	if ((!cmd[1] || !ft_strcmp(cmd[1], "~")) && !(null_arg(mns, &cmd)))
 		return (0);
 	pa = cmd[1];
 	if (!ft_strcmp(pa, "-"))
