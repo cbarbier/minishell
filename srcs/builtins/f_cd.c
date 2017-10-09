@@ -79,6 +79,7 @@ static int	null_arg(t_mns *mns, char ***cmd)
 
 	if (!(hm = get_val(mns->envcpy, "HOME")))
 		return (0);
+	ft_printf("herwe i am%s\n", hm);
 	cmds = mns->cmds;
 	while (*cmds)
 	{
@@ -87,6 +88,8 @@ static int	null_arg(t_mns *mns, char ***cmd)
 		cmds++;
 	}
 	*cmds = ft_str_to_tab(*cmd, ft_strdup(hm));
+	*cmd = *cmds;
+	ft_putstrtab(*cmds);
 	return (1);
 }
 
@@ -99,10 +102,10 @@ int			f_cd(t_mns *mns, char **cmd)
 		ft_fprintf(2, "cd: Usage cd [DIR_PATH]\n");
 		return (0);
 	}
-	if ((!cmd[1] || !ft_strcmp(cmd[1], "~")) && !(null_arg(mns, &cmd)))
+	if ((!cmd[1] || !ft_strcmp(cmd[1], "~")) && !null_arg(mns, &cmd))
 		return (0);
 	pa = cmd[1];
-	if (!ft_strcmp(pa, "-"))
+	if (pa && !ft_strcmp(pa, "-"))
 		if (!(pa = get_val(mns->envcpy, "OLDPWD")))
 			return (0);
 	if (!is_valid_dir(mns, pa))
