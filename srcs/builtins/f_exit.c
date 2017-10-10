@@ -6,16 +6,17 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/03 18:37:50 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/10 09:15:30 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		f_exit(t_mns *mns, char **cmd)
+int		f_exit(t_mns *mns, char **cmd, char **env)
 {
 	int		n;
 
+	(void)env;
 	n = 0;
 	if (ft_strtablen(cmd) > 2)
 	{

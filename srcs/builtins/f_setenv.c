@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/03 11:40:59 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/10 14:21:05 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,24 @@ static int		set_path(t_mns *mns, char **cmd)
 	return (mns->paths ? 1 : 0);
 }
 
-int				f_setenv(t_mns *mns, char **cmd)
+int				f_setenv(t_mns *mns, char **cmd, char **env)
 {
 	int		i;
 	char	*line;
 
-	if (ft_strtablen(cmd) != 3
-	|| !is_valid_name(cmd[1]))
+	if (env != mns->envcpy)
+		return (0);
+	if (ft_strtablen(cmd) != 3 || !is_valid_name(cmd[1]))
 	{
 		ft_fprintf(2, "setenv: Usage: setenv [VAR_NAME] [val] (A-Za-z_)\n");
 		return (0);
 	}
 	line = ft_strjoin(cmd[1], "=");
 	line = ft_strnjoinzfree(line, cmd[2], ft_strlen(cmd[2]), 1);
-	if ((i = get_env_index(mns->envcpy, cmd[1])) < 0)
+	if ((i = get_env_index(env, cmd[1])) < 0)
 	{
 		mns->envcpy = ft_str_to_tab(mns->envcpy, line);
+		set_path(mns, cmd);
 		return (1);
 	}
 	set_path(mns, cmd);

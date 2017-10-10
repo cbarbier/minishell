@@ -6,31 +6,13 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/03 11:42:50 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/10 15:30:24 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	try_cmd(t_mns *mns, char *fp, char **cmd)
-{
-	if (access(fp, F_OK) == -1)
-	{
-		ft_strdel(&mns->err);
-		ft_asprintf(&mns->err, "mnsh: command not found: %s\n", cmd[0]);
-		return (0);
-	}
-	else if (access(fp, X_OK) == -1)
-	{
-		ft_strdel(&mns->err);
-		ft_asprintf(&mns->err, "mnsh: permission denied: %s\n", cmd[0]);
-		return (0);
-	}
-	ft_strdel(&mns->err);
-	return (1);
-}
-
-static int	try_bltins(t_mns *mns, char **cmd)
+static int	try_bltins(t_mns *mns, char **cmd, char **env)
 {
 	int		i;
 
@@ -43,7 +25,7 @@ static int	try_bltins(t_mns *mns, char **cmd)
 	}
 	if (i == NB_BLTNS)
 		return (-1);
-	mns->bltins[i].f(mns, cmd);
+	mns->bltins[i].f(mns, cmd, env);
 	return (i);
 }
 
@@ -70,10 +52,31 @@ static char	*try_path(t_mns *mns, char **cmd)
 	return (0);
 }
 
-static int	exec_cmd(t_mns *mns, char *path, char **cmd)
+int			try_cmd(t_mns *mns, char *fp, char **cmd)
+{
+	struct stat		st;
+
+	if (!ft_strchr("/.", *fp) || stat(fp, &st) == -1 || S_ISDIR(st.st_mode))
+	{
+		ft_strdel(&mns->err);
+		ft_asprintf(&mns->err, "mnsh: command not found: %s\n", cmd[0]);
+		return (0);
+	}
+	else if (access(fp, X_OK) == -1)
+	{
+		ft_strdel(&mns->err);
+		ft_asprintf(&mns->err, "mnsh: permission denied: %s\n", cmd[0]);
+		return (0);
+	}
+	ft_strdel(&mns->err);
+	return (1);
+}
+
+int			exec_cmd(t_mns *mns, char *path, char **cmd, char **env)
 {
 	int		cpid;
 	int		status;
+	int		ret;
 
 	if ((cpid = fork()) < 0)
 	{
@@ -83,8 +86,9 @@ static int	exec_cmd(t_mns *mns, char *path, char **cmd)
 	if (!cpid)
 	{
 		signal(SIGINT, SIG_DFL);
-		execve(path, cmd, mns->envcpy);
-		exit(0);
+		ret = execve(path, cmd, env);
+		ft_fprintf(2, "mns: error while executing: %s\n", path);
+		exit(ret);
 	}
 	else
 	{
@@ -95,7 +99,7 @@ static int	exec_cmd(t_mns *mns, char *path, char **cmd)
 	return (1);
 }
 
-int			treat_cmd(t_mns *mns, char ***a_cmd)
+int			treat_cmd(t_mns *mns, char ***a_cmd, char **env)
 {
 	char		*p;
 	char		**cmd;
@@ -103,15 +107,15 @@ int			treat_cmd(t_mns *mns, char ***a_cmd)
 
 	mns->err = 0;
 	cmd = *a_cmd;
-	if (try_bltins(mns, cmd) >= 0)
+	if (try_bltins(mns, cmd, env) >= 0)
 		return (1);
 	if ((p = try_path(mns, cmd)))
 	{
-		ret = exec_cmd(mns, p, cmd);
+		ret = exec_cmd(mns, p, cmd, env);
 		ft_strdel(&p);
 		return (ret);
 	}
 	if (try_cmd(mns, cmd[0], cmd))
-		return (exec_cmd(mns, cmd[0], cmd));
+		return (exec_cmd(mns, cmd[0], cmd, env));
 	return (0);
 }

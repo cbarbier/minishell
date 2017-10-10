@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/10 09:03:54 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/10 13:11:59 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	is_valid_dir(t_mns *mns, char *pa)
 	return (ret);
 }
 
-static int	f_cd_helper(t_mns *mns, char **cmd, char *pa)
+static int	f_cd_helper(t_mns *mns, char **cmd, char *pa, char **env)
 {
 	char		*old;
 
@@ -57,27 +57,29 @@ static int	f_cd_helper(t_mns *mns, char **cmd, char *pa)
 		ft_strdel(&pa);
 		return (0);
 	}
-	if (!(old = get_val(mns->envcpy, "PWD")))
-		return (0);
-	set_val(mns->envcpy, "OLDPWD", ft_strdup(old));
+	if ((old = get_val(env, "PWD"))
+			&& !set_val(mns->envcpy, "OLDPWD", ft_strdup(old)))
+		mns->envcpy = ft_str_to_tab(mns->envcpy, ft_strjoin("OLDPWD=", old));
 	if (!(pa = getcwd(0, 0)))
 	{
 		ft_fprintf(2, "cd: error on getcwd function\n", pa);
 		ft_strdel(&pa);
 		return (0);
 	}
-	set_val(mns->envcpy, "PWD", pa);
+	if (!set_val(mns->envcpy, "PWD", ft_strdup(pa)))
+		mns->envcpy = ft_str_to_tab(mns->envcpy, ft_strjoin("PWD=", pa));
 	if (!ft_strcmp(cmd[1], "-"))
-		ft_printf("%s\n", get_val(mns->envcpy, "PWD"));
+		ft_printf("%s\n", get_val(env, "PWD"));
+	ft_strdel(&pa);
 	return (1);
 }
 
-static int	null_arg(t_mns *mns, char ***cmd)
+static int	null_arg(t_mns *mns, char ***cmd, char **env)
 {
 	char			***cmds;
 	char			*hm;
 
-	if (!(hm = get_val(mns->envcpy, "HOME")))
+	if (!(hm = get_val(env, "HOME")))
 	{
 		ft_fprintf(2, "cd: HOME not set\n");
 		return (0);
@@ -91,11 +93,10 @@ static int	null_arg(t_mns *mns, char ***cmd)
 	}
 	*cmds = ft_str_to_tab(*cmd, ft_strdup(hm));
 	*cmd = *cmds;
-	ft_putstrtab(*cmds);
 	return (1);
 }
 
-int			f_cd(t_mns *mns, char **cmd)
+int			f_cd(t_mns *mns, char **cmd, char **env)
 {
 	char		*pa;
 
@@ -104,15 +105,15 @@ int			f_cd(t_mns *mns, char **cmd)
 		ft_fprintf(2, "cd: Usage cd [DIR_PATH]\n");
 		return (0);
 	}
-	if ((!cmd[1] || !ft_strcmp(cmd[1], "~")) && !null_arg(mns, &cmd))
+	if ((!cmd[1] || !ft_strcmp(cmd[1], "~")) && !null_arg(mns, &cmd, env))
 		return (0);
 	pa = cmd[1];
 	if (pa && !ft_strcmp(pa, "-"))
-		if (!(pa = get_val(mns->envcpy, "OLDPWD")))
+		if (!(pa = get_val(env, "OLDPWD")))
 			return (0);
 	if (!is_valid_dir(mns, pa))
 		return (0);
-	if (!f_cd_helper(mns, cmd, pa))
+	if (!f_cd_helper(mns, cmd, pa, env))
 		return (0);
 	return (1);
 }
