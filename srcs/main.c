@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/10 14:35:34 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/10 15:42:14 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static void	put_prompt(t_mns *mns)
 	char	*p;
 	char	*h;
 
-	if ((p = getcwd(0, 0)) && (h = get_val(mns->envcpy, "HOME"))
-			&& !ft_strncmp(p, h, ft_strlen(h)))
+	p = getcwd(0, 0);
+	if (p && (h = get_val(mns->envcpy, "HOME")))
 		ft_printf("[{grn}~%s{no}]", p + ft_strlen(h));
 	else
 		ft_printf("[{grn}%s{no}]", (p ? p : ""));
