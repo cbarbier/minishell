@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/10 15:34:48 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/10 15:52:00 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int				f_unsetenv(t_mns *mns, char **cmd, char **env)
 		return (0);
 	}
 	if ((i = get_env_index(mns->envcpy, cmd[1])) < 0)
+	{
+		ft_fprintf(2, "unsetenv: variable %s not set\n", cmd[1]);
 		return (0);
+	}
 	mns->envcpy = ft_strtabpop(mns->envcpy, i);
 	if (!ft_strcmp(cmd[1], "PATH"))
 		ft_strtabdel(&mns->paths);

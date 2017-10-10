@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/10 13:11:59 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/10 15:55:32 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ int			f_cd(t_mns *mns, char **cmd, char **env)
 		return (0);
 	pa = cmd[1];
 	if (pa && !ft_strcmp(pa, "-"))
-		if (!(pa = get_val(env, "OLDPWD")))
+		if (!(pa = get_val(env, "OLDPWD"))
+				&& ft_fprintf(2, "cd: OLDPWD not set\n"))
 			return (0);
 	if (!is_valid_dir(mns, pa))
 		return (0);
