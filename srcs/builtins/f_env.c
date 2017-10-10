@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/09 13:19:48 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/10 09:09:31 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		f_env(t_mns *mns, char **cmd)
 {
 	char	**call_cmd;
+
 	if (ft_strtablen(cmd) == 1)
 	{
 		ft_putstrtab(mns->envcpy);

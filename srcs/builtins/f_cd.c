@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/09 16:06:55 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/10 09:03:54 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,10 @@ static int	null_arg(t_mns *mns, char ***cmd)
 	char			*hm;
 
 	if (!(hm = get_val(mns->envcpy, "HOME")))
+	{
+		ft_fprintf(2, "cd: HOME not set\n");
 		return (0);
-	ft_printf("herwe i am%s\n", hm);
+	}
 	cmds = mns->cmds;
 	while (*cmds)
 	{
