@@ -6,7 +6,7 @@
 #    By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/04 14:32:18 by cbarbier          #+#    #+#              #
-#    Updated: 2017/10/09 14:24:25 by cbarbier         ###   ########.fr        #
+#    Updated: 2017/10/11 11:35:26 by cbarbier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ clean:
 
 fclean: clean
 	@/bin/rm -rf $(NAME)
+	@/bin/rm -rf $(NAME).dSYM
 	@make -C libft fclean
 
 re: fclean all

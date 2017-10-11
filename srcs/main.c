@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/10 15:42:14 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/11 13:28:40 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	put_prompt(t_mns *mns)
 	char	*h;
 
 	p = getcwd(0, 0);
-	if (p && (h = get_val(mns->envcpy, "HOME")))
+	if (p && (h = get_val(mns->envcpy, "HOME"))
+			&& !ft_strncmp(p, h, ft_strlen(h)))
 		ft_printf("[{grn}~%s{no}]", p + ft_strlen(h));
 	else
 		ft_printf("[{grn}%s{no}]", (p ? p : ""));
@@ -57,7 +58,8 @@ int			main(int argc, char **argv, char **envp)
 	t_mns		mns;
 
 	(void)argv;
-	(void)argc;
+	if (argc != 1)
+		return (ft_printf("Usage: ./minishell [NO ARGUMENT]\n") || 1);
 	signal(SIGINT, SIG_IGN);
 	init_mns(&mns, envp);
 	mns_core(&mns);

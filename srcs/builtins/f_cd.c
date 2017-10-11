@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/10 15:55:32 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/11 13:19:49 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ static int	is_valid_dir(t_mns *mns, char *pa)
 	(void)mns;
 	ret = 1;
 	if (pa[0] != '/')
-		fp = make_fullpath(pa);
+	{
+		if (!(fp = make_fullpath(pa)))
+			return (0);
+	}
 	else
 		fp = ft_strdup(pa);
 	if ((stat(pa, &st) == -1) && !(ret = 0))

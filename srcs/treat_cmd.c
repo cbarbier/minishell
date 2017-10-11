@@ -6,7 +6,7 @@
 /*   By: cbarbier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/26 17:43:05 by cbarbier          #+#    #+#             */
-/*   Updated: 2017/10/10 15:30:24 by cbarbier         ###   ########.fr       */
+/*   Updated: 2017/10/11 13:36:19 by cbarbier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int			try_cmd(t_mns *mns, char *fp, char **cmd)
 {
 	struct stat		st;
 
-	if (!ft_strchr("/.", *fp) || stat(fp, &st) == -1 || S_ISDIR(st.st_mode))
+	if (!ft_strchr("/.", *fp) || stat(fp, &st) != 0 || !S_ISREG(st.st_mode)
+			|| !(S_IXUSR & st.st_mode))
 	{
 		ft_strdel(&mns->err);
 		ft_asprintf(&mns->err, "mnsh: command not found: %s\n", cmd[0]);
@@ -87,7 +88,7 @@ int			exec_cmd(t_mns *mns, char *path, char **cmd, char **env)
 	{
 		signal(SIGINT, SIG_DFL);
 		ret = execve(path, cmd, env);
-		ft_fprintf(2, "mns: error while executing: %s\n", path);
+		ft_fprintf(2, "mns: error on the execution of: %s\n", path);
 		exit(ret);
 	}
 	else
